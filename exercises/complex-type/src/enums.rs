@@ -8,11 +8,11 @@ enum MessageOne {
     ChangeColor(i32, i32, i32),
 }
 fn show_message(msg: MessageOne) {
-    println!("{}", msg);
+    println!("{:#?}", msg);
 }
 
 fn exercise1() {
-    let msgs: __ = [
+    let msgs: [MessageOne;3] = [
         MessageOne::Quit,
         MessageOne::Move { x: 1, y: 3 },
         MessageOne::ChangeColor(255, 255, 0),
@@ -28,7 +28,10 @@ fn exercise1() {
 // Make it compile
 // Run tests
 enum Message {
-    // TODO: implement the message variant types based on their usage below
+    Echo(),
+    ChangeColor(u8, u8, u8),
+    Quit(Point),
+    Move(Point),
 }
 
 struct Point {
@@ -62,6 +65,12 @@ impl State {
     fn process(&mut self, message: Message) {
         // TODO: create a match expression to process the different message variants
         // Remember: When passing a tuple as a function argument, you'll need extra parentheses: fn function((t, u, p, l, e))
+        match message {
+           Message::ChangeColor(first, second, third) => self.change_color((first, second, third)),
+           Message::Echo(string) => self.echo(string),
+           Message::Move(point) => self.move_position(point),
+           Message::Quit => self.quit()
+        }
     }
 }
 
@@ -79,7 +88,10 @@ enum Direction {
 impl Direction {
     fn opposite(&self) -> Direction {
         match self {
-            //TODO
+            Self::North => Self::South,
+            Self::East => Self::West,
+            Self::South => Self::North,
+            Self::West => Self::East
         }
     }
 }
@@ -99,7 +111,10 @@ enum Operation {
 // Perform arithmetic operations
 fn perform_operation(operation: Operation, num1: f64, num2: f64) -> f64 {
     match operation {
-        // TODO
+        Operation::Add => num1 + num2,
+        Operation::Subtract => num1 - num2,
+        Operation::Multiply => num1 * num2,
+        Operation::Divide => num1 / num2
     }
 }
 
